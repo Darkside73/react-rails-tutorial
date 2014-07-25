@@ -12,3 +12,4 @@
 //
 //= require jquery
 //= require react
+//= require showdown.min
