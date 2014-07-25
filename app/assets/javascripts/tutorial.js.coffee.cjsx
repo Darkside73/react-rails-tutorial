@@ -20,10 +20,20 @@ CommentList = React.createClass
     </div>
 
 CommentForm = React.createClass
+  handleSubmit: ->
+    author = @refs.author.getDOMNode().value.trim()
+    text = @refs.text.getDOMNode().value.trim()
+    @props.onCommentSubmit author: author, text: text
+    @refs.author.getDOMNode().value = ''
+    @refs.text.getDOMNode().value = ''
+    false
+
   render: ->
-    <div className="commentForm">
-      I am a comment form
-    </div>
+    <form className="commentForm" onSubmit={@handleSubmit}>
+      <input type="text" placeholder="Your name" ref="author" />
+      <input type="text" placeholder="Say something..." ref="text" />
+      <input type="submit" value="Post" />
+    </form>
 
 CommentBox = React.createClass
   loadFromServer: ->
@@ -37,11 +47,17 @@ CommentBox = React.createClass
     data: []
   componentDidMount: ->
     @loadFromServer()
+  handleCommentSubmit: (comment) ->
+    $.post(
+      @props.url
+      comment
+      (data) => @setState data: data
+    )
   render: ->
     <div className="commentBox">
       <h1>Comments</h1>
       <CommentList data={@state.data} />
-      <CommentForm />
+      <CommentForm onCommentSubmit={@handleCommentSubmit} />
     </div>
 
 React.renderComponent(
