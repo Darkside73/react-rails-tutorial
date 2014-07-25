@@ -1,16 +1,18 @@
 /** @jsx React.DOM */
 
-var commentBox = React.createClass({
+var CommentBox = React.createClass({
   render: function() {
     return (
       <div className="commentBox">
-        I am a comment box
+        <h1>Comments</h1>
+        <CommentList />
+        <CommentForm />
       </div>
     );
   }
 });
 
 React.renderComponent(
-  <commentBox />,
+  <CommentBox />,
   $('#content').get(0)
 )
