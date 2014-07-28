@@ -48,6 +48,9 @@ CommentBox = React.createClass
   componentDidMount: ->
     @loadFromServer()
   handleCommentSubmit: (comment) ->
+    comments = @state.data
+    newComments = comments.concat [comment]
+    @setState data: newComments
     $.post(
       @props.url
       comment
